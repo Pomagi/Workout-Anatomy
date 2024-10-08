@@ -4,6 +4,7 @@ import database.ExerciseDAO;
 import panels.ExerciseListPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,13 +19,16 @@ public class Main {
 
             JFrame frame = new JFrame("Workout Anatomy");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLayout(new BorderLayout());
 
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frame.setUndecorated(false);
 
             ExerciseListPanel exerciseListPanel = new ExerciseListPanel();
 
-            frame.add(exerciseListPanel);
+            frame.add(exerciseListPanel, BorderLayout.WEST);
+
+            //frame.pack(); // Pack the frame to fit preferred sizes of components
 
             frame.setVisible(true);
         });
