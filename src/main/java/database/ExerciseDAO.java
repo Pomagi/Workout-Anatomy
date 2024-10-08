@@ -14,7 +14,7 @@ public class ExerciseDAO {
 
         try(Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM exercises"))
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM exercise"))
         {
 
             while(resultSet.next()){
