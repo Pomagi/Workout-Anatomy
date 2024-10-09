@@ -3,7 +3,6 @@ package panels;
 import database.ExerciseDAO;
 
 import javax.swing.*;
-import javax.swing.text.TabableView;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,7 +39,7 @@ public class ExerciseListPanel extends JPanel{
                 if (e.getClickCount() == 1) {
                     String selectedExercise = list.getSelectedValue();
                     if(selectedExercise != null) {
-                        exerciseDetailsPanel.setExerciseName(selectedExercise);
+                        exerciseDetailsPanel.setExercise(selectedExercise);
                     }
                 }
             }
