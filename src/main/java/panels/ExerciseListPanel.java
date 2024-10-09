@@ -5,6 +5,8 @@ import database.ExerciseDAO;
 import javax.swing.*;
 import javax.swing.text.TabableView;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,12 @@ public class ExerciseListPanel extends JPanel{
     List<String> exercises;
     DefaultListModel<String> exercisesModel;
     JList<String> list;
+    ExerciseDetailsPanel exerciseDetailsPanel;
 
-    public ExerciseListPanel() {
+    public ExerciseListPanel(ExerciseDetailsPanel exerciseDetailsPanel) {
+        this.exerciseDetailsPanel = exerciseDetailsPanel;
 
-        setPreferredSize(new Dimension(370, 800));
-        setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(370, 540));
         setLayout(new BorderLayout());
 
         exercises = new ArrayList<>();
@@ -28,11 +31,25 @@ public class ExerciseListPanel extends JPanel{
 
         list = new JList<>(exercisesModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.VERTICAL_WRAP);
-        list.setPreferredSize(new Dimension(200, 500));
-        list.setFont(new Font("Arial", Font.PLAIN, 25));
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    String selectedExercise = list.getSelectedValue();
+                    if(selectedExercise != null) {
+                        exerciseDetailsPanel.setExerciseName(selectedExercise);
+                    }
+                }
+            }
+        });
+
 
         JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(300, 350));
         add(scrollPane, BorderLayout.CENTER);
 
 
