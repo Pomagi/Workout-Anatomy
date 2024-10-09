@@ -68,6 +68,7 @@ public class ExerciseDAO {
 
             while(resultSet.next()){
                 muscleGroups.add(resultSet.getString("name"));
+
             }
 
             resultSet.close();
@@ -77,6 +78,27 @@ public class ExerciseDAO {
         }
 
         return muscleGroups;
+    }
+
+    public String getMuscleGroupImageURL(String muscleGroupName) {
+        String imageURL = null;
+
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM muscle WHERE name = ?"))
+        {
+
+            statement.setString(1, muscleGroupName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                imageURL = resultSet.getString("image");
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return imageURL;
     }
 
 
