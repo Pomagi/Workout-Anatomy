@@ -1,5 +1,7 @@
 package Windows;
 
+import Database.ExerciseDAO;
+import Entities.Exercise;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,11 +15,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class ExerciseListWindow {
 
-    private ListView<String> exerciseList;
+    private ListView<Exercise> exerciseList;
+    private ExerciseDAO exerciseDAO;
 
     public void show(){
+
+        exerciseDAO = new ExerciseDAO();
 
         Label exerciseListLabel = new Label("Exercise List");
 
@@ -35,7 +42,7 @@ public class ExerciseListWindow {
 
         exerciseList = new ListView<>();
         exerciseList.setPrefWidth(300);
-        fillExerciseList();
+        getAllExercises();
 
         VBox exerciseListPanel = new VBox(exerciseListLabel ,searchPanel, exerciseList);
         exerciseListPanel.setSpacing(10);
@@ -50,11 +57,11 @@ public class ExerciseListWindow {
 
     }
 
-    private void fillExerciseList(){
+    private void getAllExercises(){
 
-        ObservableList<String> items = FXCollections.observableArrayList (
-                "Single", "Double", "Suite", "Family App");
-        exerciseList.setItems(items);
+        List<Exercise> exercises = exerciseDAO.getAllExercises();
+        exerciseList.getItems().clear();
+        exerciseList.getItems().addAll(exercises);
 
     }
 
