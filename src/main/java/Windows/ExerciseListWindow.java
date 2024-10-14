@@ -32,10 +32,24 @@ public class ExerciseListWindow {
         searchTextField.setPromptText("Enter exercise name");
 
         Button searchButton = new Button("Search");
-        searchButton.setOnAction(e -> {});
+        searchButton.setOnAction(e -> {
+
+            if(!searchTextField.getText().isEmpty()){
+                getExercisesByName(searchTextField.getText());
+            }
+            else{
+                getAllExercises();
+            }
+
+        });
 
         Button clearButton = new Button("Clear");
-        clearButton.setOnAction(e -> {});
+        clearButton.setOnAction(e -> {
+
+            searchTextField.clear();
+            getAllExercises();
+
+        });
 
         HBox searchPanel = new HBox(searchTextField, searchButton, clearButton);
         searchPanel.setSpacing(10);
@@ -47,7 +61,6 @@ public class ExerciseListWindow {
         VBox exerciseListPanel = new VBox(exerciseListLabel ,searchPanel, exerciseList);
         exerciseListPanel.setSpacing(10);
         exerciseListPanel.setPadding(new Insets(10));
-
 
         Scene scene = new Scene(exerciseListPanel, 800, 400);
         Stage window = new Stage();
@@ -63,6 +76,12 @@ public class ExerciseListWindow {
         exerciseList.getItems().clear();
         exerciseList.getItems().addAll(exercises);
 
+    }
+
+    private void getExercisesByName(String name){
+        List<Exercise> exercises = exerciseDAO.getExercisesByName(name);
+        exerciseList.getItems().clear();
+        exerciseList.getItems().addAll(exercises);
     }
 
 }

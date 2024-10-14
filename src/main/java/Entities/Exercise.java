@@ -1,10 +1,13 @@
 package Entities;
 
+import java.util.List;
+
 public class Exercise {
 
     private int id;
     private String name;
     private String video;
+
 
     public Exercise(int id, String name, String video) {
         this.id = id;
