@@ -3,8 +3,6 @@ package Windows;
 import Database.ExerciseDAO;
 import Entities.Exercise;
 import Entities.Muscle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,10 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -84,14 +82,32 @@ public class ExerciseListWindow {
         exerciseListPanel.setPadding(new Insets(10));
 
         selectedExerciseLabel = new Label("Exercise not selected");
+
         muscleList = new ListView<>();
+        muscleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Muscle selectedMuscle = muscleList.getSelectionModel().getSelectedItem();
+                muscleImage.setImage(new Image(getClass().getResourceAsStream("/images/" + selectedMuscle.getImage())));
+            }
+
+        });
         muscleList.setPrefWidth(300);
 
         VBox selectedExerciseMuscleListPanel = new VBox(selectedExerciseLabel, muscleList);
         selectedExerciseMuscleListPanel.setSpacing(10);
         selectedExerciseMuscleListPanel.setPadding(new Insets(10));
 
-        HBox generalPanel = new HBox(exerciseListPanel, selectedExerciseMuscleListPanel);
+        muscleImage = new ImageView();
+        muscleImage.setImage(new Image(getClass().getResourceAsStream("/images/blank.png")));
+        muscleImage.setFitHeight(400);
+        muscleImage.setFitWidth(400);
+
+        VBox muscleImagePanel = new VBox(muscleImage);
+        muscleImagePanel.setPadding(new Insets(35,0,0,0));
+
+        HBox generalPanel = new HBox(exerciseListPanel, selectedExerciseMuscleListPanel, muscleImagePanel);
         generalPanel.setSpacing(10);
         generalPanel.setPadding(new Insets(10));
 
