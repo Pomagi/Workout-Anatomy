@@ -65,12 +65,52 @@ public class ExerciseDAO {
 
             }
 
+            statement.close();
+            resultSet.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return exercises;
 
+    }
+
+    public List<Muscle> getMusclesForExercise(Exercise exercise){
+
+        List<Muscle> muscles = new ArrayList<>();
+        String exerciseName = exercise.getName();
+        String query = "SELECT muscle.id, muscle.name, muscle.image " +
+                "FROM exercise_target_muscle " +
+                "INNER JOIN exercise ON exercise_target_muscle.exercise_id = exercise.id " +
+                "INNER JOIN muscle ON exercise_target_muscle.muscle_id = muscle.id " +
+                "WHERE exercise.name = ?";
+
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query))
+        {
+
+            statement.setString(1, exerciseName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                int muscleId = resultSet.getInt("muscle.id");
+                String muscleName = resultSet.getString("muscle.name");
+                String muscleImage = resultSet.getString("muscle.image");
+
+                Muscle muscle = new Muscle(muscleId, muscleName, muscleImage);
+                muscles.add(muscle);
+            }
+
+            statement.close();
+            resultSet.close();
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return muscles;
     }
 
 

@@ -24,5 +24,10 @@ public class Muscle {
         return image;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
 }
