@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -30,6 +33,10 @@ public class ExerciseListWindow {
 
     private ListView<Muscle> muscleList;
     private ImageView muscleImage;
+
+    private Media media;
+    private MediaPlayer mediaPlayer;
+    private MediaView mediaView;
 
     public void show(){
 
@@ -71,6 +78,16 @@ public class ExerciseListWindow {
                 selectedExercise = exerciseList.getSelectionModel().getSelectedItem();
                 selectedExerciseLabel.setText(selectedExercise.getName());
                 getAllMusclesForExercise(selectedExercise);
+
+                if(mediaPlayer != null){
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                }
+
+                media = new Media(getClass().getResource("/videos/" + selectedExercise.getVideo()).toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaView.setMediaPlayer(mediaPlayer);
+                mediaPlayer.play();
             }
 
         });
@@ -107,11 +124,19 @@ public class ExerciseListWindow {
         VBox muscleImagePanel = new VBox(muscleImage);
         muscleImagePanel.setPadding(new Insets(35,0,0,0));
 
-        HBox generalPanel = new HBox(exerciseListPanel, selectedExerciseMuscleListPanel, muscleImagePanel);
+        media = new Media(getClass().getResource("/videos/video.mp4").toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaView =  new MediaView(mediaPlayer);
+        VBox mediaPanel = new VBox(mediaView);
+        mediaPanel.setSpacing(10);
+        mediaPanel.setPadding(new Insets(35, 0, 0, 0));
+
+        HBox generalPanel = new HBox(exerciseListPanel, selectedExerciseMuscleListPanel, muscleImagePanel, mediaPanel);
         generalPanel.setSpacing(10);
         generalPanel.setPadding(new Insets(10));
 
-        Scene scene = new Scene(generalPanel, 1200, 500);
+        Scene scene = new Scene(generalPanel, 1800, 500);
         Stage window = new Stage();
         window.setScene(scene);
         window.setTitle("Exercise List");
